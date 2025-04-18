@@ -1,3 +1,10 @@
+import { Intro } from "./components/Intro";
+
 export function Home() {
-  return <h1>Home</h1>;
+  return (
+    <>
+      <Intro />
+      <h1>Home</h1>
+    </>
+  );
 }
