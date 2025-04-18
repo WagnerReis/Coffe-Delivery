@@ -1,6 +1,27 @@
-import { css } from "styled-components";
+import { css, RuleSet } from "styled-components";
 
-export const mixins = {
+interface MixinsProps {
+  fonts: FontsProps;
+}
+
+interface FontsProps {
+  titleXL: RuleSet<object>;
+  titleL: RuleSet<object>;
+  titleM: RuleSet<object>;
+  titleS: RuleSet<object>;
+  titleXS: RuleSet<object>;
+  textL: RuleSet<object>;
+  textLBold: RuleSet<object>;
+  textM: RuleSet<object>;
+  textMBold: RuleSet<object>;
+  textS: RuleSet<object>;
+  textXS: RuleSet<object>;
+  tag: RuleSet<object>;
+  buttonG: RuleSet<object>;
+  buttonM: RuleSet<object>;
+}
+
+export const mixins: MixinsProps = {
   fonts: {
     titleXL: css`
       font-family: "Baloo 2", sans-serif;
