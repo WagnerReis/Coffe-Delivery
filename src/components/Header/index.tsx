@@ -6,7 +6,7 @@ import { ShoppingCart, MapPin } from "phosphor-react";
 export function Header() {
   return (
     <HeaderContainer>
-      <img src={logo} alt="Coffe Delivery" />
+      <img src={logo} alt="Coffee Delivery" />
 
       <nav>
         <Location>
