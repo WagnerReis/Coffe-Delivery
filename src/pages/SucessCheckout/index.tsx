@@ -1,5 +1,5 @@
 import { CurrencyDollar, MapPin, Timer } from "phosphor-react";
-import illustrantionCheckout from "../../../assets/illustration-checkout.svg";
+import illustrantionCheckout from "../../assets/illustration-checkout.svg";
 import {
   OrderInfo,
   SuccessContainer,
@@ -10,7 +10,7 @@ import {
   ItemDescription,
 } from "./styles";
 
-export function Sucess() {
+export function SucessCheckout() {
   return (
     <SuccessContainer>
       <div>

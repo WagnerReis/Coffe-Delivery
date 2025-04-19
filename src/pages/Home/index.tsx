@@ -1,4 +1,4 @@
-import { CatalogCard } from "../Checkout/CatalogCard";
+import { CatalogCard } from "./components/CatalogCard";
 import { Intro } from "./components/Intro";
 import { CardListContainer, NavBar } from "./style";
 

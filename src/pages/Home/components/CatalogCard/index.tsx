@@ -1,5 +1,5 @@
 import { Minus, Plus, ShoppingCart } from "phosphor-react";
-import expresso from "../../../assets/coffee/expresso.svg";
+import expresso from "../../../../assets/coffee/expresso.svg";
 
 import { CardContainer, Tag, Presentation, Buy, Cart } from "./styles";
 

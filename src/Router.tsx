@@ -1,14 +1,14 @@
 import { Routes, Route } from "react-router-dom";
 import { DefaultLayout } from "./layouts/DefaultLayout";
 import { Home } from "./pages/Home";
-import { Sucess } from "./pages/Checkout/Sucess";
+import { SucessCheckout } from "./pages/SucessCheckout";
 
 export function Router() {
   return (
     <Routes>
       <Route path="/" element={<DefaultLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/checkout/:id/success" element={<Sucess />} />
+        <Route path="/checkout/:id/success" element={<SucessCheckout />} />
       </Route>
     </Routes>
   );
