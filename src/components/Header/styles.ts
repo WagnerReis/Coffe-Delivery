@@ -3,9 +3,10 @@ import styled from "styled-components";
 export const HeaderContainer = styled.header`
   background: ${(props) => props.theme["background"]};
   height: 6.5rem;
-  max-width: 72.5rem;
-  margin: 0 auto;
-  position: relative;
+  padding: 0 22rem;
+
+  width: 100%;
+  max-width: 100%;
 
   display: flex;
   align-items: center;
@@ -14,6 +15,10 @@ export const HeaderContainer = styled.header`
   nav {
     display: flex;
     gap: 0.75rem;
+  }
+
+  img {
+    cursor: pointer;
   }
 `;
 
@@ -38,13 +43,19 @@ export const Cart = styled.div`
   background: ${({ theme }) => theme["yellow-light"]};
   color: ${({ theme }) => theme["yellow-dark"]};
   border-radius: 8px;
+  border: 1px solid transparent;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   padding: 0.6rem;
   position: relative;
+
+  &:hover {
+    border: 1px solid ${({ theme }) => theme["yellow-dark"]};
+  }
 `;
 
 export const CartBadge = styled.div`
