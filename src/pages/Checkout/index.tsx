@@ -1,26 +1,19 @@
+import { Form } from "../../components/Form";
 import { CardFlat } from "./components/CardFlat";
 import {
+  CardContainer,
+  CardOption,
+  ConfirmButton,
   Container,
   FormContainer,
   FormSection,
-  PaymentOptions,
-  CardContainer,
-  PaymentOptionTitle,
   PaymentOptionCards,
-  CardOption,
+  PaymentOptions,
+  PaymentOptionTitle,
   Summary,
-  ConfirmButton,
 } from "./style";
 
 import { Bank, CreditCard, CurrencyDollar, Money } from "phosphor-react";
-
-export function Input() {
-  return <input type="text" />;
-}
-
-export function Form() {
-  return <h1>Form</h1>;
-}
 
 export function Checkout() {
   return (
@@ -28,9 +21,7 @@ export function Checkout() {
       <FormContainer>
         <h2>Complete seu pedido</h2>
         <FormSection>
-          <form action="">
-            <input type="text" />
-          </form>
+          <Form />
         </FormSection>
 
         <PaymentOptions>

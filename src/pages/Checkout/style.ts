@@ -1,28 +1,44 @@
 import styled from "styled-components";
 import { mixins } from "../../styles/mixins";
 
-// export const Input = styled.input`
-//   flex: 1;
-// `;
+//INPUT
+
+export const Input = styled.input`
+  background: ${({ theme }) => theme["base-input"]};
+  border: 1px solid ${({ theme }) => theme["base-button"]};
+  border-radius: 6px;
+  padding: 0.75rem;
+  color: ${({ theme }) => theme["base-text"]};
+  ${mixins.fonts.textS}
+
+  width: 100%;
+
+  flex: 1;
+`;
 
 export const Container = styled.main`
   width: 100%;
-  padding: 5rem 22rem;
+  padding: 2.5rem 22rem;
 
   display: flex;
   gap: 2rem;
+
+  h2 {
+    ${mixins.fonts.titleXS};
+    color: ${({ theme }) => theme["base-subtitle"]};
+  }
 `;
 
 export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* gap: 0.75rem; */
 `;
 
 export const FormSection = styled.section`
   width: 40rem;
   height: 23.25rem;
 
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -112,6 +128,7 @@ export const CardContainer = styled.div`
   border-radius: 6px 36px;
 
   padding: 2.5rem;
+  margin-top: 1rem;
 
   display: flex;
   flex-direction: column;
