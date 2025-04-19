@@ -2,6 +2,8 @@ import { CatalogCard } from "./components/CatalogCard";
 import { Intro } from "./components/Intro";
 import { CardListContainer, NavBar } from "./style";
 
+import { coffees } from "../../utils/coffees";
+
 export function Home() {
   return (
     <>
@@ -11,20 +13,9 @@ export function Home() {
         <input type="text" placeholder="Pesquisar café..." />
       </NavBar>
       <CardListContainer>
-        <CatalogCard />
-        <CatalogCard />
-        <CatalogCard />
-        <CatalogCard />
-        <CatalogCard />
-        <CatalogCard />
-        <CatalogCard />
-        <CatalogCard />
-        <CatalogCard />
-        <CatalogCard />
-        <CatalogCard />
-        <CatalogCard />
-        <CatalogCard />
-        <CatalogCard />
+        {coffees.map((coffee) => {
+          return <CatalogCard key={coffee.id} coffee={coffee} />;
+        })}
       </CardListContainer>
     </>
   );
