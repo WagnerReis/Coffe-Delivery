@@ -1,9 +1,11 @@
+import { NewCheckoutFormData } from "../../contexts/CheckoutContext";
 import { Coffee } from "./reducers";
 
 export enum ActionTypes {
   ADD_NEW_COFFEE = "ADD_NEW_COFFEE",
   DECREASE_COFFEE = "DECREASE_COFFEE",
   REMOVE_COFFEE = "REMOVE_COFFEE",
+  CREATE_CHECKOUT = "CREATE_CHECKOUT",
 }
 
 export function addNewCoffeeToCartAction(coffee: Coffee) {
@@ -29,6 +31,15 @@ export function removeCoffeeAction(coffeeId: string) {
     type: ActionTypes.REMOVE_COFFEE,
     payload: {
       coffeeId,
+    },
+  };
+}
+
+export function createCheckoutAction(data: NewCheckoutFormData) {
+  return {
+    type: ActionTypes.CREATE_CHECKOUT,
+    payload: {
+      data: data,
     },
   };
 }

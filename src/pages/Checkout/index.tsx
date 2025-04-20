@@ -1,6 +1,8 @@
 import { Form } from "../../components/Form";
 import { CardFlat } from "./components/CardFlat";
 import * as zod from "zod";
+import { v4 as uuidV4 } from "uuid";
+
 import {
   CardContainer,
   CardOption,
@@ -21,7 +23,17 @@ import { useCheckout } from "../../hooks/useCheckout";
 import { useState } from "react";
 import { Error } from "../../components/Input/styles";
 import { calcTotalItens } from "../../utils/calcTotalItens";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+const coffeeSchemaValidation = zod.array(
+  zod.object({
+    id: zod.string(),
+    title: zod.string(),
+    price: zod.number(),
+    quantity: zod.number(),
+    image: zod.string(),
+  }),
+);
 
 const newCheckoutFormValidationSchema = zod.object({
   cep: zod.string().min(1, "Informe o CEP"),
@@ -36,13 +48,15 @@ const newCheckoutFormValidationSchema = zod.object({
       return { message: "Informe o método de pagamento" };
     },
   }),
+  coffees: coffeeSchemaValidation,
 });
 
 type NewCheckoutFormData = zod.infer<typeof newCheckoutFormValidationSchema>;
 
 export function Checkout() {
   const [isSelectedPaymentMethod, setIsSelectedPaymentMethod] = useState("");
-  const { coffees, createNewOrder, orderId } = useCheckout();
+  const { coffees, createCheckout, orderId } = useCheckout();
+  const navigate = useNavigate();
 
   const newCheckoutForm = useForm<NewCheckoutFormData>({
     resolver: zodResolver(newCheckoutFormValidationSchema),
@@ -68,10 +82,10 @@ export function Checkout() {
   } = newCheckoutForm;
 
   function handleCreateNewCheckoutForm(data: NewCheckoutFormData) {
-    const newOrder = {
-      coffees: [],
+    const newCheckout = {
+      coffees: data.coffees,
       paymentMethod: data.paymentMethod,
-      orderId: "123456",
+      orderId: uuidV4(),
       address: {
         cep: data.cep,
         street: data.street,
@@ -83,9 +97,10 @@ export function Checkout() {
       },
     };
 
-    createNewOrder(newOrder);
+    createCheckout(newCheckout);
     reset();
     handleSetPaymentMethod("");
+    navigate(`/checkout/${orderId}/success`);
   }
 
   function handleSetPaymentMethod(method: "credit" | "debit" | "money" | "") {
@@ -172,6 +187,7 @@ export function Checkout() {
           ) : (
             coffees.map((coffee) => (
               <>
+                {setValue("coffees", [coffee])}
                 <CardFlat key={coffee.id} coffee={coffee} />
                 <hr />
               </>
@@ -194,11 +210,11 @@ export function Checkout() {
                 </div>
               </Summary>
 
-              <NavLink to={`/checkout/${orderId}/success`}>
-                <ConfirmButton type="submit">
-                  <p>CONFIRMAR PEDIDO</p>
-                </ConfirmButton>
-              </NavLink>
+              {/* <NavLink to={`/checkout/${orderId}/success`}> */}
+              <ConfirmButton type="submit">
+                <p>CONFIRMAR PEDIDO</p>
+              </ConfirmButton>
+              {/* </NavLink> */}
             </>
           )}
         </CardContainer>

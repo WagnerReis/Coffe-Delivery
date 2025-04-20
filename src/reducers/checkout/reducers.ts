@@ -1,6 +1,7 @@
 import { ActionTypes } from "./actions";
 import { produce } from "immer";
 import { v4 as uuidV4 } from "uuid";
+import { Address, NewCheckoutFormData } from "../../contexts/CheckoutContext";
 
 export interface Coffee {
   id: string;
@@ -15,12 +16,15 @@ interface ActionProps {
   payload: {
     coffee?: Coffee;
     coffeeId?: string;
+    data?: NewCheckoutFormData;
   };
 }
 
 interface CheckoutState {
   orderId: string;
   coffees: Coffee[];
+  address: Address;
+  paymentMethod: "credit" | "debit" | "money";
 }
 
 export function checkoutReducer(state: CheckoutState, action: ActionProps) {
@@ -68,6 +72,18 @@ export function checkoutReducer(state: CheckoutState, action: ActionProps) {
 
       return produce(state, (draft) => {
         draft.coffees = draft.coffees.filter((item) => item.id !== coffeeId);
+      });
+    }
+    case ActionTypes.CREATE_CHECKOUT: {
+      const data = action.payload.data;
+
+      if (!data) return state;
+
+      return produce(state, (draft) => {
+        draft.orderId = uuidV4();
+        draft.coffees = data.coffees;
+        draft.address = data.address;
+        draft.paymentMethod = data.paymentMethod;
       });
     }
     default:

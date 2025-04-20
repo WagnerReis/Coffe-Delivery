@@ -9,8 +9,11 @@ import {
   Item,
   ItemDescription,
 } from "./styles";
+import { useCheckout } from "../../hooks/useCheckout";
 
 export function SucessCheckout() {
+  const { address, paymentMethod } = useCheckout();
+  console.log("address: ", address);
   return (
     <SuccessContainer>
       <div>
@@ -28,9 +31,14 @@ export function SucessCheckout() {
             </Icon>
             <ItemDescription>
               <p>
-                Entrega em <strong>Rua João Daniel Martinelli, 102</strong>
+                Entrega em{" "}
+                <strong>
+                  Rua {address.street}, {address.number}
+                </strong>
               </p>
-              <p>Farrapos - Porto Alegre, RS</p>
+              <p>
+                {address.district} - {address.city}, {address.state}
+              </p>
             </ItemDescription>
           </Item>
 
@@ -50,7 +58,7 @@ export function SucessCheckout() {
             </Icon>
             <ItemDescription>
               <p>Pagamento na entrega</p>
-              <strong>Cartão de Crédito</strong>
+              <strong>{formatPaymentMethod(paymentMethod)}</strong>
             </ItemDescription>
           </Item>
         </OrderInfo>
@@ -59,4 +67,17 @@ export function SucessCheckout() {
       </Content>
     </SuccessContainer>
   );
+}
+
+function formatPaymentMethod(paymentMethod: string) {
+  switch (paymentMethod) {
+    case "credit":
+      return "Cartão de Crédito";
+    case "debit":
+      return "Cartão de Débito";
+    case "money":
+      return "Dinheiro";
+    default:
+      return "Método de pagamento não reconhecido";
+  }
 }

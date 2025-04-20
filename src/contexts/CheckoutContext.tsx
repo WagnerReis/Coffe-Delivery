@@ -1,12 +1,13 @@
 import { createContext, ReactNode, useReducer } from "react";
 import {
   addNewCoffeeToCartAction,
+  createCheckoutAction,
   decreaseCoffeeAction,
   removeCoffeeAction,
 } from "../reducers/checkout/actions";
 import { checkoutReducer } from "../reducers/checkout/reducers";
 
-interface Address {
+export interface Address {
   cep: string;
   street: string;
   number: string;
@@ -24,7 +25,7 @@ interface Coffee {
   quantity: number;
 }
 
-interface NewCheckoutFormData {
+export interface NewCheckoutFormData {
   orderId: string;
   coffees: Coffee[];
   address: Address;
@@ -34,7 +35,9 @@ interface NewCheckoutFormData {
 interface CheckoutContextType {
   orderId: string;
   coffees: Coffee[];
-  createNewOrder: (data: NewCheckoutFormData) => void;
+  address: Address;
+  paymentMethod: "credit" | "debit" | "money";
+  createCheckout: (data: NewCheckoutFormData) => void;
   addNewCoffeeToCart: (coffee: Coffee) => void;
   decreaseCoffeeToCart: (coffeeId: string) => void;
   removeCoffeeToCart: (coffeeId: string) => void;
@@ -52,12 +55,22 @@ export function CheckoutContextProvider({
   const [checkoutState, dispatch] = useReducer(checkoutReducer, {
     orderId: "",
     coffees: [],
+    address: {
+      cep: "",
+      street: "",
+      number: "",
+      complement: "",
+      district: "",
+      city: "",
+      state: "",
+    },
+    paymentMethod: "credit",
   });
 
-  const { coffees, orderId } = checkoutState;
+  const { coffees, orderId, address, paymentMethod } = checkoutState;
 
-  function createNewOrder(data: NewCheckoutFormData) {
-    console.log("Pedido criado com sucesso!", data);
+  function createCheckout(data: NewCheckoutFormData) {
+    dispatch(createCheckoutAction(data));
   }
 
   function addNewCoffeeToCart(coffee: Coffee) {
@@ -77,7 +90,9 @@ export function CheckoutContextProvider({
       value={{
         orderId,
         coffees,
-        createNewOrder,
+        address,
+        paymentMethod,
+        createCheckout,
         addNewCoffeeToCart,
         decreaseCoffeeToCart,
         removeCoffeeToCart,
