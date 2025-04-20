@@ -27,7 +27,12 @@ export function Form() {
             <Input name="number" size="medium" placeholder="Número" />
           </div>
           <div>
-            <Input name="complement" size="large" placeholder="Complemento" />
+            <Input
+              name="complement"
+              size="large"
+              placeholder="Complemento"
+              optional
+            />
           </div>
         </FormRow>
 

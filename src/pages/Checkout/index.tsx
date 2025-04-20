@@ -18,6 +18,8 @@ import { Bank, CreditCard, CurrencyDollar, Money } from "phosphor-react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCheckout } from "../../hooks/useCheckout";
+import { useState } from "react";
+import { Error } from "../../components/Input/styles";
 
 const newCheckoutFormValidationSchema = zod.object({
   cep: zod.string().min(1, "Informe o CEP"),
@@ -37,6 +39,7 @@ const newCheckoutFormValidationSchema = zod.object({
 type NewCheckoutFormData = zod.infer<typeof newCheckoutFormValidationSchema>;
 
 export function Checkout() {
+  const [isSelectedPaymentMethod, setIsSelectedPaymentMethod] = useState("");
   const { createNewOrder } = useCheckout();
 
   const newCheckoutForm = useForm<NewCheckoutFormData>({
@@ -49,11 +52,18 @@ export function Checkout() {
       district: "",
       city: "",
       state: "",
-      paymentMethod: "credit",
+      paymentMethod: undefined,
     },
+    mode: "onSubmit",
   });
 
-  const { handleSubmit, reset } = newCheckoutForm;
+  const {
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+    trigger,
+  } = newCheckoutForm;
 
   function handleCreateNewCheckoutForm(data: NewCheckoutFormData) {
     const newOrder = {
@@ -73,6 +83,19 @@ export function Checkout() {
 
     createNewOrder(newOrder);
     reset();
+    handleSetPaymentMethod("");
+  }
+
+  function handleSetPaymentMethod(method: "credit" | "debit" | "money" | "") {
+    if (method === "") {
+      setIsSelectedPaymentMethod("");
+      return;
+    }
+
+    setIsSelectedPaymentMethod(method);
+    setValue("paymentMethod", method);
+
+    trigger("paymentMethod");
   }
 
   return (
@@ -82,38 +105,55 @@ export function Checkout() {
     >
       <FormCheckout>
         <h2>Complete seu pedido</h2>
-        <FormSection>
-          <FormProvider {...newCheckoutForm}>
+
+        <FormProvider {...newCheckoutForm}>
+          <FormSection>
             <Form />
-          </FormProvider>
-        </FormSection>
+          </FormSection>
 
-        <PaymentOptions>
-          <PaymentOptionTitle>
-            <CurrencyDollar size={22} />
-            <div>
-              <strong>Pagamento</strong>
-              <p>
-                O pagamento é feito na entrega. Escolha a forma que deseja pagar
-              </p>
-            </div>
-          </PaymentOptionTitle>
+          <PaymentOptions>
+            <PaymentOptionTitle>
+              <CurrencyDollar size={22} />
+              <div>
+                <strong>Pagamento</strong>
+                <p>
+                  O pagamento é feito na entrega. Escolha a forma que deseja
+                  pagar
+                </p>
+              </div>
+            </PaymentOptionTitle>
 
-          <PaymentOptionCards>
-            <CardOption isSelected>
-              <CreditCard size={16} weight="regular" />
-              <p>CARTÃO DE CRÉDITO</p>
-            </CardOption>
-            <CardOption>
-              <Money size={16} weight="regular" />
-              <p>CARTÃO DE DÉBITO</p>
-            </CardOption>
-            <CardOption>
-              <Bank size={16} weight="regular" />
-              <p>DINHEIRO</p>
-            </CardOption>
-          </PaymentOptionCards>
-        </PaymentOptions>
+            <PaymentOptionCards>
+              <CardOption
+                type="button"
+                isSelected={isSelectedPaymentMethod === "credit"}
+                onClick={() => handleSetPaymentMethod("credit")}
+              >
+                <CreditCard size={16} weight="regular" />
+                <p>CARTÃO DE CRÉDITO</p>
+              </CardOption>
+              <CardOption
+                type="button"
+                isSelected={isSelectedPaymentMethod === "debit"}
+                onClick={() => handleSetPaymentMethod("debit")}
+              >
+                <Money size={16} weight="regular" />
+                <p>CARTÃO DE DÉBITO</p>
+              </CardOption>
+              <CardOption
+                type="button"
+                isSelected={isSelectedPaymentMethod === "money"}
+                onClick={() => handleSetPaymentMethod("money")}
+              >
+                <Bank size={16} weight="regular" />
+                <p>DINHEIRO</p>
+              </CardOption>
+            </PaymentOptionCards>
+            {errors.paymentMethod && (
+              <Error>{errors.paymentMethod.message}</Error>
+            )}
+          </PaymentOptions>
+        </FormProvider>
       </FormCheckout>
 
       <div>

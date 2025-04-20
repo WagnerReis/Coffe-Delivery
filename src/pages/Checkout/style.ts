@@ -89,7 +89,7 @@ export const PaymentOptionCards = styled.div`
   gap: 0.75rem;
 `;
 
-export const CardOption = styled.div<{ isSelected?: boolean }>`
+export const CardOption = styled.button<{ isSelected?: boolean }>`
   width: 178px;
   height: 51px;
 
