@@ -7,41 +7,39 @@ export function Form() {
     <div>
       <Title>
         <MapPinLine size={22} />
-        <div className="icon icon-location">
+        <div>
           <span>Endereço de Entrega</span>
-          <p className="section-description">
-            Informe o endereço onde deseja receber seu pedido
-          </p>
+          <p>Informe o endereço onde deseja receber seu pedido</p>
         </div>
       </Title>
 
       <FormAddress>
-        <div className="form-group">
-          <Input size="medium" placeholder="CEP" />
+        <div>
+          <Input name="cep" size="medium" placeholder="CEP" />
         </div>
 
-        <div className="form-group">
-          <Input size="large" placeholder="Rua" />
+        <div>
+          <Input name="street" size="large" placeholder="Rua" />
         </div>
 
         <FormRow>
           <div>
-            <Input size="medium" placeholder="Número" />
+            <Input name="number" size="medium" placeholder="Número" />
           </div>
           <div>
-            <Input size="large" placeholder="Complemento" optional />
+            <Input name="complement" size="large" placeholder="Complemento" />
           </div>
         </FormRow>
 
         <FormRow>
           <div>
-            <Input size="medium" placeholder="Bairro" />
+            <Input name="district" size="medium" placeholder="Bairro" />
           </div>
           <div>
-            <Input size="mediumXs" placeholder="Cidade" />
+            <Input name="city" size="mediumXs" placeholder="Cidade" />
           </div>
           <div>
-            <Input size="small" placeholder="UF" />
+            <Input name="state" size="small" placeholder="UF" />
           </div>
         </FormRow>
       </FormAddress>

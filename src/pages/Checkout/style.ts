@@ -16,7 +16,7 @@ export const Input = styled.input`
   flex: 1;
 `;
 
-export const Container = styled.main`
+export const FormContainer = styled.form`
   width: 100%;
   padding: 2.5rem 22rem;
 
@@ -29,7 +29,7 @@ export const Container = styled.main`
   }
 `;
 
-export const FormContainer = styled.div`
+export const FormCheckout = styled.div`
   display: flex;
   flex-direction: column;
 `;

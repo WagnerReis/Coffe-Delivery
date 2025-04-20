@@ -22,7 +22,7 @@ export const Title = styled.div`
   }
 `;
 
-export const FormAddress = styled.form`
+export const FormAddress = styled.div`
   margin-top: 2rem;
 
   display: flex;

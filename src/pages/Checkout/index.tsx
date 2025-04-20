@@ -1,11 +1,12 @@
 import { Form } from "../../components/Form";
 import { CardFlat } from "./components/CardFlat";
+import * as zod from "zod";
 import {
   CardContainer,
   CardOption,
   ConfirmButton,
-  Container,
   FormContainer,
+  FormCheckout,
   FormSection,
   PaymentOptionCards,
   PaymentOptions,
@@ -14,14 +15,77 @@ import {
 } from "./style";
 
 import { Bank, CreditCard, CurrencyDollar, Money } from "phosphor-react";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useCheckout } from "../../hooks/useCheckout";
+
+const newCheckoutFormValidationSchema = zod.object({
+  cep: zod.string().min(1, "Informe o CEP"),
+  street: zod.string().min(1, "Informe a rua"),
+  number: zod.string().min(1, "Informe o número"),
+  complement: zod.string(),
+  district: zod.string().min(1, "Informe o bairro"),
+  city: zod.string().min(1, "Informe a cidade"),
+  state: zod.string().min(1, "Informe o estado"),
+  paymentMethod: zod.enum(["credit", "debit", "money"], {
+    errorMap: () => {
+      return { message: "Informe o método de pagamento" };
+    },
+  }),
+});
+
+type NewCheckoutFormData = zod.infer<typeof newCheckoutFormValidationSchema>;
 
 export function Checkout() {
+  const { createNewOrder } = useCheckout();
+
+  const newCheckoutForm = useForm<NewCheckoutFormData>({
+    resolver: zodResolver(newCheckoutFormValidationSchema),
+    defaultValues: {
+      cep: "",
+      street: "",
+      number: "",
+      complement: "",
+      district: "",
+      city: "",
+      state: "",
+      paymentMethod: "credit",
+    },
+  });
+
+  const { handleSubmit, reset } = newCheckoutForm;
+
+  function handleCreateNewCheckoutForm(data: NewCheckoutFormData) {
+    const newOrder = {
+      coffees: [],
+      paymentMethod: data.paymentMethod,
+      orderId: "123456",
+      address: {
+        cep: data.cep,
+        street: data.street,
+        number: data.number,
+        complement: data.complement,
+        district: data.district,
+        city: data.city,
+        state: data.state,
+      },
+    };
+
+    createNewOrder(newOrder);
+    reset();
+  }
+
   return (
-    <Container>
-      <FormContainer>
+    <FormContainer
+      onSubmit={handleSubmit(handleCreateNewCheckoutForm)}
+      action=""
+    >
+      <FormCheckout>
         <h2>Complete seu pedido</h2>
         <FormSection>
-          <Form />
+          <FormProvider {...newCheckoutForm}>
+            <Form />
+          </FormProvider>
         </FormSection>
 
         <PaymentOptions>
@@ -50,7 +114,7 @@ export function Checkout() {
             </CardOption>
           </PaymentOptionCards>
         </PaymentOptions>
-      </FormContainer>
+      </FormCheckout>
 
       <div>
         <h2>Cafés selecionados</h2>
@@ -75,11 +139,11 @@ export function Checkout() {
             </div>
           </Summary>
 
-          <ConfirmButton>
+          <ConfirmButton type="submit">
             <p>CONFIRMAR PEDIDO</p>
           </ConfirmButton>
         </CardContainer>
       </div>
-    </Container>
+    </FormContainer>
   );
 }
