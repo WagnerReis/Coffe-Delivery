@@ -1,22 +1,28 @@
 import { CardFlatContainer, Info, Details, Actions, Counter } from "./styles";
-import expresso from "../../../../assets/coffee/expresso.svg";
 import { Minus, Plus, Trash } from "phosphor-react";
 
-export function CardFlat() {
+interface CardFlatProps {
+  title: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
+export function CardFlat({ title, price, quantity, image }: CardFlatProps) {
   return (
     <CardFlatContainer>
       <Info>
-        <img src={expresso} alt="" />
+        <img src={image} alt="" />
 
         <Details>
-          <p>Expresso Tradicional</p>
+          <p>{title}</p>
 
           <Actions>
             <Counter>
               <button>
                 <Minus size={14} weight="bold" />
               </button>
-              <p>1</p>
+              <p>{quantity}</p>
               <button>
                 <Plus size={14} weight="bold" />
               </button>
@@ -29,7 +35,7 @@ export function CardFlat() {
           </Actions>
         </Details>
       </Info>
-      <strong>R$ 9,90</strong>
+      <strong>R$ {price}</strong>
     </CardFlatContainer>
   );
 }

@@ -20,6 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCheckout } from "../../hooks/useCheckout";
 import { useState } from "react";
 import { Error } from "../../components/Input/styles";
+import { calcTotalItens } from "../../utils/calcTotalItens";
 
 const newCheckoutFormValidationSchema = zod.object({
   cep: zod.string().min(1, "Informe o CEP"),
@@ -40,7 +41,7 @@ type NewCheckoutFormData = zod.infer<typeof newCheckoutFormValidationSchema>;
 
 export function Checkout() {
   const [isSelectedPaymentMethod, setIsSelectedPaymentMethod] = useState("");
-  const { createNewOrder } = useCheckout();
+  const { coffees, createNewOrder } = useCheckout();
 
   const newCheckoutForm = useForm<NewCheckoutFormData>({
     resolver: zodResolver(newCheckoutFormValidationSchema),
@@ -97,6 +98,11 @@ export function Checkout() {
 
     trigger("paymentMethod");
   }
+
+  const deliveryPrice = 3.3;
+
+  const totalItens = calcTotalItens(coffees);
+  const totalOrder = totalItens + deliveryPrice;
 
   return (
     <FormContainer
@@ -160,14 +166,26 @@ export function Checkout() {
         <h2>Cafés selecionados</h2>
 
         <CardContainer>
-          <CardFlat />
-          <hr />
-          <CardFlat />
-          <hr />
+          {coffees.length === 0 ? (
+            <p>Nenhum café selecionado</p>
+          ) : (
+            coffees.map((coffee) => (
+              <>
+                <CardFlat
+                  key={coffee.id}
+                  title={coffee.title}
+                  price={coffee.price}
+                  quantity={coffee.quantity}
+                  image={coffee.image}
+                />
+                <hr />
+              </>
+            ))
+          )}
           <Summary>
             <div>
               <p>Total de itens</p>
-              <p>R$ 29,70</p>
+              <p>R$ {totalItens}</p>
             </div>
             <div>
               <p>Entrega</p>
@@ -175,7 +193,7 @@ export function Checkout() {
             </div>
             <div>
               <p>Total</p>
-              <p>R$ 33,20</p>
+              <p>R$ {totalOrder}</p>
             </div>
           </Summary>
 

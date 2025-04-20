@@ -18,7 +18,7 @@ export function Header() {
           <MapPin size={22} weight="fill" />
           Porto Alegre, RS
         </Location>
-        <NavLink to="/checkout">
+        <NavLink to={coffees.length > 0 ? "/checkout" : "/"} title="Carrinho">
           <Cart>
             <ShoppingCart size={22} weight="fill" />
             {coffees.length > 0 && <CartBadge>{coffees.length}</CartBadge>}
