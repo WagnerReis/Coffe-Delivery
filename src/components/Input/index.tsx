@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { InputForm, InputWrapper, OptionalLabel } from "./styles";
+import { Error, InputForm, InputWrapper, OptionalLabel } from "./styles";
 
 interface InputProps {
   size: "small" | "medium" | "mediumXs" | "large";
@@ -14,12 +14,16 @@ export function Input({
   name,
   optional = false,
 }: InputProps) {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <InputWrapper>
       <InputForm {...register(name)} placeholder={placeholder} size={size} />
       {optional && <OptionalLabel>Opcional</OptionalLabel>}
+      {errors[name] && <Error>{errors[name]?.message?.toString()}</Error>}
     </InputWrapper>
   );
 }

@@ -30,6 +30,12 @@ export const OptionalLabel = styled.span`
   font-size: 0.75rem;
   font-style: italic;
 `;
+export const Error = styled.p`
+  color: red;
+  ${mixins.fonts.textXS}
+  margin-top: 0.25rem;
+  font-weight: 400;
+`;
 
 export const InputForm = styled.input<{
   size: keyof typeof SIZE;
