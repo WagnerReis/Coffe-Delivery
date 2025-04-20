@@ -54,11 +54,12 @@ const newCheckoutFormValidationSchema = zod.object({
   }),
   coffees: coffeeSchemaValidation,
 });
+
 type NewCheckoutFormData = zod.infer<typeof newCheckoutFormValidationSchema>;
 
 export function Checkout() {
   const [isSelectedPaymentMethod, setIsSelectedPaymentMethod] = useState("");
-  const { coffees, createCheckout } = useCheckout();
+  const { coffees, createCheckout, cleanCart } = useCheckout();
   const navigate = useNavigate();
 
   const newCheckoutForm = useForm<NewCheckoutFormData>({
@@ -66,7 +67,7 @@ export function Checkout() {
     defaultValues: {
       cep: "",
       street: "",
-      number: 0,
+      number: undefined,
       complement: "",
       district: "",
       city: "",
@@ -104,6 +105,7 @@ export function Checkout() {
     createCheckout(newCheckout);
     reset();
     handleSetPaymentMethod("");
+    cleanCart();
     navigate(`/checkout/${orderId}/success`);
   }
 
@@ -189,13 +191,15 @@ export function Checkout() {
           {coffees.length === 0 ? (
             <p>Nenhum café selecionado</p>
           ) : (
-            coffees.map((coffee) => (
-              <>
-                {setValue("coffees", [coffee])}
-                <CardFlat key={coffee.id} coffee={coffee} />
-                <hr />
-              </>
-            ))
+            coffees.map((coffee) => {
+              setValue("coffees", [coffee]);
+              return (
+                <div key={coffee.id}>
+                  <CardFlat key={coffee.id} coffee={coffee} />
+                  <hr />
+                </div>
+              );
+            })
           )}
           {coffees.length > 0 && (
             <>

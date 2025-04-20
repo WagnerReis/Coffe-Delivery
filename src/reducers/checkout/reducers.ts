@@ -12,7 +12,7 @@ export interface Coffee {
 
 interface ActionProps {
   type: string;
-  payload: {
+  payload?: {
     coffee?: Coffee;
     coffeeId?: string;
     data?: NewCheckoutFormData;
@@ -29,7 +29,7 @@ interface CheckoutState {
 export function checkoutReducer(state: CheckoutState, action: ActionProps) {
   switch (action.type) {
     case ActionTypes.ADD_NEW_COFFEE: {
-      const coffee = action.payload.coffee;
+      const coffee = action.payload?.coffee;
 
       if (!coffee) return state;
 
@@ -73,7 +73,7 @@ export function checkoutReducer(state: CheckoutState, action: ActionProps) {
       });
     }
     case ActionTypes.CREATE_CHECKOUT: {
-      const data = action.payload.data;
+      const data = action.payload?.data;
 
       if (!data) return state;
 
@@ -81,6 +81,11 @@ export function checkoutReducer(state: CheckoutState, action: ActionProps) {
         draft.coffees = data.coffees;
         draft.address = data.address;
         draft.paymentMethod = data.paymentMethod;
+      });
+    }
+    case ActionTypes.CLEAN_CART: {
+      return produce(state, (draft) => {
+        draft.coffees = [];
       });
     }
     default:

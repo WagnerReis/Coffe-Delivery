@@ -6,6 +6,7 @@ export enum ActionTypes {
   DECREASE_COFFEE = "DECREASE_COFFEE",
   REMOVE_COFFEE = "REMOVE_COFFEE",
   CREATE_CHECKOUT = "CREATE_CHECKOUT",
+  CLEAN_CART = "CLEAN_CART",
 }
 
 export function addNewCoffeeToCartAction(coffee: Coffee) {
@@ -41,5 +42,11 @@ export function createCheckoutAction(data: NewCheckoutFormData) {
     payload: {
       data: data,
     },
+  };
+}
+
+export function cleanCartAction() {
+  return {
+    type: ActionTypes.CLEAN_CART,
   };
 }

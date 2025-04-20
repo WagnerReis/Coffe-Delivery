@@ -4,6 +4,7 @@ import {
   createCheckoutAction,
   decreaseCoffeeAction,
   removeCoffeeAction,
+  cleanCartAction,
 } from "../reducers/checkout/actions";
 import { checkoutReducer } from "../reducers/checkout/reducers";
 
@@ -41,6 +42,7 @@ interface CheckoutContextType {
   addNewCoffeeToCart: (coffee: Coffee) => void;
   decreaseCoffeeToCart: (coffeeId: string) => void;
   removeCoffeeToCart: (coffeeId: string) => void;
+  cleanCart: () => void;
 }
 
 interface CheckoutContextProviderProps {
@@ -85,6 +87,10 @@ export function CheckoutContextProvider({
     dispatch(removeCoffeeAction(coffeeId));
   }
 
+  function cleanCart() {
+    dispatch(cleanCartAction());
+  }
+
   return (
     <CheckoutContext.Provider
       value={{
@@ -96,6 +102,7 @@ export function CheckoutContextProvider({
         addNewCoffeeToCart,
         decreaseCoffeeToCart,
         removeCoffeeToCart,
+        cleanCart,
       }}
     >
       {children}

@@ -33,7 +33,7 @@ export function SucessCheckout() {
               <p>
                 Entrega em{" "}
                 <strong>
-                  Rua {address.street}, {address.number}
+                  Rua {formatStreet(address.street)}, {address.number}
                 </strong>
               </p>
               <p>
@@ -80,4 +80,13 @@ function formatPaymentMethod(paymentMethod: string) {
     default:
       return "Método de pagamento não reconhecido";
   }
+}
+
+function formatStreet(street: string) {
+  const streetAux = street;
+  if (streetAux.toLocaleLowerCase().startsWith("rua ")) {
+    return street.slice(4).trim();
+  }
+
+  return street.trim();
 }
