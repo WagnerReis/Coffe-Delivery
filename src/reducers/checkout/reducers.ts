@@ -34,10 +34,8 @@ export function checkoutReducer(state: CheckoutState, action: ActionProps) {
         );
         if (coffeeExistsIndex >= 0) {
           draft.coffees[coffeeExistsIndex].quantity += 1;
-          console.log("aqui1");
         } else {
           draft.coffees.push({ ...coffee, quantity: 1 });
-          console.log("aqui2", draft.coffees);
         }
       });
     }
@@ -48,8 +46,15 @@ export function checkoutReducer(state: CheckoutState, action: ActionProps) {
 
       return produce(state, (draft) => {
         const coffeeExists = draft.coffees.find((item) => item.id === coffeeId);
-        if (coffeeExists && coffeeExists.quantity > 1) {
+
+        if (!coffeeExists) return state;
+
+        if (coffeeExists.quantity > 1) {
           coffeeExists.quantity -= 1;
+        } else if (coffeeExists.quantity === 1) {
+          draft.coffees = draft.coffees.filter(
+            (coffee) => coffee.id !== coffeeId,
+          );
         }
       });
     }

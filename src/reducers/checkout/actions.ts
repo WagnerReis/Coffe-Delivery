@@ -1,12 +1,5 @@
 import { Coffee } from "./reducers";
 
-// Add new coffee to cart
-// - if not exists, if exists just increment
-
-// decrement amount
-
-// remove cofffee of the cart
-
 export enum ActionTypes {
   ADD_NEW_COFFEE = "ADD_NEW_COFFEE",
   DECREASE_COFFEE = "DECREASE_COFFEE",

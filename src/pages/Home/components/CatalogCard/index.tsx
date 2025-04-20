@@ -18,11 +18,14 @@ interface CatalogCardProps {
 }
 
 export function CatalogCard({ coffee }: CatalogCardProps) {
-  const { coffees, addNewCoffeeToCart } = useCheckout();
+  const { addNewCoffeeToCart, decreaseCoffeeToCart } = useCheckout();
 
   function handleAddNewCoffeeToCart(data: Coffee) {
     addNewCoffeeToCart(data);
-    console.log(coffees);
+  }
+
+  function handleDecreaseCoffeeToCart(coffeeId: string) {
+    decreaseCoffeeToCart(coffeeId);
   }
 
   return (
@@ -44,7 +47,7 @@ export function CatalogCard({ coffee }: CatalogCardProps) {
         <strong> {coffee.price.toFixed(2)}</strong>
 
         <div>
-          <button>
+          <button onClick={() => handleDecreaseCoffeeToCart(coffee.id)}>
             <Minus size={32} weight="bold" />
           </button>
           <p>{coffee.quantity}</p>

@@ -1,5 +1,9 @@
 import { createContext, ReactNode, useReducer } from "react";
-import { addNewCoffeeToCartAction } from "../reducers/checkout/actions";
+import {
+  addNewCoffeeToCartAction,
+  decreaseCoffeeAction,
+  removeCoffeeAction,
+} from "../reducers/checkout/actions";
 import { checkoutReducer } from "../reducers/checkout/reducers";
 
 interface Address {
@@ -31,6 +35,8 @@ interface CheckoutContextType {
   coffees: Coffee[];
   createNewOrder: (data: NewCheckoutFormData) => void;
   addNewCoffeeToCart: (coffee: Coffee) => void;
+  decreaseCoffeeToCart: (coffeeId: string) => void;
+  removeCoffeeToCart: (coffeeId: string) => void;
 }
 
 interface CheckoutContextProviderProps {
@@ -54,12 +60,25 @@ export function CheckoutContextProvider({
 
   function addNewCoffeeToCart(coffee: Coffee) {
     dispatch(addNewCoffeeToCartAction(coffee));
-    console.log("Novo café adicionado ao carrinho!", coffee);
+  }
+
+  function decreaseCoffeeToCart(coffeeId: string) {
+    dispatch(decreaseCoffeeAction(coffeeId));
+  }
+
+  function removeCoffeeToCart(coffeeId: string) {
+    dispatch(removeCoffeeAction(coffeeId));
   }
 
   return (
     <CheckoutContext.Provider
-      value={{ coffees, createNewOrder, addNewCoffeeToCart }}
+      value={{
+        coffees,
+        createNewOrder,
+        addNewCoffeeToCart,
+        decreaseCoffeeToCart,
+        removeCoffeeToCart,
+      }}
     >
       {children}
     </CheckoutContext.Provider>
