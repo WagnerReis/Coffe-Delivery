@@ -1,4 +1,6 @@
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useReducer } from "react";
+import { addNewCoffeeToCartAction } from "../reducers/checkout/actions";
+import { checkoutReducer } from "../reducers/checkout/reducers";
 
 interface Address {
   cep: string;
@@ -11,6 +13,7 @@ interface Address {
 }
 
 interface Coffee {
+  id: string;
   title: string;
   price: number;
   image: string;
@@ -25,7 +28,9 @@ interface NewCheckoutFormData {
 }
 
 interface CheckoutContextType {
+  coffees: Coffee[];
   createNewOrder: (data: NewCheckoutFormData) => void;
+  addNewCoffeeToCart: (coffee: Coffee) => void;
 }
 
 interface CheckoutContextProviderProps {
@@ -37,12 +42,25 @@ export const CheckoutContext = createContext({} as CheckoutContextType);
 export function CheckoutContextProvider({
   children,
 }: CheckoutContextProviderProps) {
+  const [checkoutState, dispatch] = useReducer(checkoutReducer, {
+    coffees: [],
+  });
+
+  const { coffees } = checkoutState;
+
   function createNewOrder(data: NewCheckoutFormData) {
     console.log("Pedido criado com sucesso!", data);
   }
 
+  function addNewCoffeeToCart(coffee: Coffee) {
+    dispatch(addNewCoffeeToCartAction(coffee));
+    console.log("Novo café adicionado ao carrinho!", coffee);
+  }
+
   return (
-    <CheckoutContext.Provider value={{ createNewOrder }}>
+    <CheckoutContext.Provider
+      value={{ coffees, createNewOrder, addNewCoffeeToCart }}
+    >
       {children}
     </CheckoutContext.Provider>
   );

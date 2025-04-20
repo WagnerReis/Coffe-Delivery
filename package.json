@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
+    "immer": "^10.1.1",
     "lodash": "^4.17.21",
     "phosphor-react": "^1.4.1",
     "react": "^19.0.0",

@@ -3,8 +3,11 @@ import { HeaderContainer, Location, Cart, CartBadge } from "./styles";
 import logo from "../../assets/logo.svg";
 import { ShoppingCart, MapPin } from "phosphor-react";
 import { NavLink } from "react-router-dom";
+import { useCheckout } from "../../hooks/useCheckout";
 
 export function Header() {
+  const { coffees } = useCheckout();
+
   return (
     <HeaderContainer>
       <NavLink to="/">
@@ -18,7 +21,7 @@ export function Header() {
         <NavLink to="/checkout">
           <Cart>
             <ShoppingCart size={22} weight="fill" />
-            <CartBadge>3</CartBadge>
+            {coffees.length > 0 && <CartBadge>{coffees.length}</CartBadge>}
           </Cart>
         </NavLink>
       </nav>
