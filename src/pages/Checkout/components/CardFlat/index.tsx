@@ -1,37 +1,43 @@
 import { useCheckout } from "../../../../hooks/useCheckout";
+import { Coffee } from "../../../../reducers/checkout/reducers";
 import { CardFlatContainer, Info, Details, Actions, Counter } from "./styles";
 import { Minus, Plus, Trash } from "phosphor-react";
 
 interface CardFlatProps {
-  id: string;
-  title: string;
-  price: number;
-  quantity: number;
-  image: string;
+  coffee: Coffee;
 }
 
-export function CardFlat({ id, title, price, quantity, image }: CardFlatProps) {
-  const { removeCoffeeToCart } = useCheckout();
+export function CardFlat({ coffee }: CardFlatProps) {
+  const { addNewCoffeeToCart, decreaseCoffeeToCart, removeCoffeeToCart } =
+    useCheckout();
 
   function handleRemoveCoffee() {
-    removeCoffeeToCart(id);
+    removeCoffeeToCart(coffee.id);
+  }
+
+  function handleAddCoffee() {
+    addNewCoffeeToCart(coffee);
+  }
+
+  function handleDecreaseCoffee() {
+    decreaseCoffeeToCart(coffee.id);
   }
 
   return (
     <CardFlatContainer>
       <Info>
-        <img src={image} alt="" />
+        <img src={coffee.image} alt="" />
 
         <Details>
-          <p>{title}</p>
+          <p>{coffee.title}</p>
 
           <Actions>
             <Counter>
-              <button>
+              <button onClick={handleDecreaseCoffee} type="button">
                 <Minus size={14} weight="bold" />
               </button>
-              <p>{quantity}</p>
-              <button>
+              <p>{coffee.quantity}</p>
+              <button onClick={handleAddCoffee} type="button">
                 <Plus size={14} weight="bold" />
               </button>
             </Counter>
@@ -43,7 +49,7 @@ export function CardFlat({ id, title, price, quantity, image }: CardFlatProps) {
           </Actions>
         </Details>
       </Info>
-      <strong>R$ {price}</strong>
+      <strong>R$ {coffee.price}</strong>
     </CardFlatContainer>
   );
 }

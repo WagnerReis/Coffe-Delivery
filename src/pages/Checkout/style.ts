@@ -122,7 +122,6 @@ export const CardOption = styled.button<{ isSelected?: boolean }>`
 
 export const CardContainer = styled.div`
   width: 28rem;
-  min-height: 31.125rem;
 
   background: ${({ theme }) => theme["base-card"]};
   border-radius: 6px 36px;

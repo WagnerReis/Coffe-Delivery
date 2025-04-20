@@ -21,6 +21,7 @@ import { useCheckout } from "../../hooks/useCheckout";
 import { useState } from "react";
 import { Error } from "../../components/Input/styles";
 import { calcTotalItens } from "../../utils/calcTotalItens";
+import { NavLink } from "react-router-dom";
 
 const newCheckoutFormValidationSchema = zod.object({
   cep: zod.string().min(1, "Informe o CEP"),
@@ -41,7 +42,7 @@ type NewCheckoutFormData = zod.infer<typeof newCheckoutFormValidationSchema>;
 
 export function Checkout() {
   const [isSelectedPaymentMethod, setIsSelectedPaymentMethod] = useState("");
-  const { coffees, createNewOrder } = useCheckout();
+  const { coffees, createNewOrder, orderId } = useCheckout();
 
   const newCheckoutForm = useForm<NewCheckoutFormData>({
     resolver: zodResolver(newCheckoutFormValidationSchema),
@@ -99,7 +100,7 @@ export function Checkout() {
     trigger("paymentMethod");
   }
 
-  const deliveryPrice = 3.3;
+  const deliveryPrice: number = 3.5;
 
   const totalItens = calcTotalItens(coffees);
   const totalOrder = totalItens + deliveryPrice;
@@ -171,36 +172,35 @@ export function Checkout() {
           ) : (
             coffees.map((coffee) => (
               <>
-                <CardFlat
-                  key={coffee.id}
-                  id={coffee.id}
-                  title={coffee.title}
-                  price={coffee.price}
-                  quantity={coffee.quantity}
-                  image={coffee.image}
-                />
+                <CardFlat key={coffee.id} coffee={coffee} />
                 <hr />
               </>
             ))
           )}
-          <Summary>
-            <div>
-              <p>Total de itens</p>
-              <p>R$ {totalItens}</p>
-            </div>
-            <div>
-              <p>Entrega</p>
-              <p>R$ 3,50</p>
-            </div>
-            <div>
-              <p>Total</p>
-              <p>R$ {totalOrder}</p>
-            </div>
-          </Summary>
+          {coffees.length > 0 && (
+            <>
+              <Summary>
+                <div>
+                  <p>Total de itens</p>
+                  <p>R$ {totalItens.toFixed(2)}</p>
+                </div>
+                <div>
+                  <p>Entrega</p>
+                  <p>R$ 3,50</p>
+                </div>
+                <div>
+                  <p>Total</p>
+                  <p>R$ {totalOrder.toFixed(2)}</p>
+                </div>
+              </Summary>
 
-          <ConfirmButton type="submit">
-            <p>CONFIRMAR PEDIDO</p>
-          </ConfirmButton>
+              <NavLink to={`/checkout/${orderId}/success`}>
+                <ConfirmButton type="submit">
+                  <p>CONFIRMAR PEDIDO</p>
+                </ConfirmButton>
+              </NavLink>
+            </>
+          )}
         </CardContainer>
       </div>
     </FormContainer>

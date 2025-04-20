@@ -131,6 +131,8 @@ export const Cart = styled.button`
   border: none;
   border-radius: 6px;
 
+  height: 2.375rem;
+
   cursor: pointer;
 
   transition: background 0.1s;

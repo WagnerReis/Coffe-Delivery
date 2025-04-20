@@ -1,5 +1,6 @@
 import { ActionTypes } from "./actions";
 import { produce } from "immer";
+import { v4 as uuidV4 } from "uuid";
 
 export interface Coffee {
   id: string;
@@ -18,6 +19,7 @@ interface ActionProps {
 }
 
 interface CheckoutState {
+  orderId: string;
   coffees: Coffee[];
 }
 
@@ -36,6 +38,7 @@ export function checkoutReducer(state: CheckoutState, action: ActionProps) {
           draft.coffees[coffeeExistsIndex].quantity += 1;
         } else {
           draft.coffees.push({ ...coffee, quantity: 1 });
+          draft.orderId = uuidV4();
         }
       });
     }

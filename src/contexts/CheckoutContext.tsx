@@ -32,6 +32,7 @@ interface NewCheckoutFormData {
 }
 
 interface CheckoutContextType {
+  orderId: string;
   coffees: Coffee[];
   createNewOrder: (data: NewCheckoutFormData) => void;
   addNewCoffeeToCart: (coffee: Coffee) => void;
@@ -49,10 +50,11 @@ export function CheckoutContextProvider({
   children,
 }: CheckoutContextProviderProps) {
   const [checkoutState, dispatch] = useReducer(checkoutReducer, {
+    orderId: "",
     coffees: [],
   });
 
-  const { coffees } = checkoutState;
+  const { coffees, orderId } = checkoutState;
 
   function createNewOrder(data: NewCheckoutFormData) {
     console.log("Pedido criado com sucesso!", data);
@@ -73,6 +75,7 @@ export function CheckoutContextProvider({
   return (
     <CheckoutContext.Provider
       value={{
+        orderId,
         coffees,
         createNewOrder,
         addNewCoffeeToCart,
