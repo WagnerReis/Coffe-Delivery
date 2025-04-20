@@ -89,7 +89,9 @@ export const PaymentOptionCards = styled.div`
   gap: 0.75rem;
 `;
 
-export const CardOption = styled.button<{ isSelected?: boolean }>`
+export const CardOption = styled.button.withConfig({
+  shouldForwardProp: (prop) => prop !== "isSelected",
+})<{ isSelected?: boolean }>`
   width: 178px;
   height: 51px;
 

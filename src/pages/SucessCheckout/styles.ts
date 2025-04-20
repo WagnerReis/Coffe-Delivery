@@ -76,7 +76,9 @@ interface BackgroundColor {
   background: keyof typeof BACKGROUND_COLOR;
 }
 
-export const Icon = styled.div<BackgroundColor>`
+export const Icon = styled.button.withConfig({
+  shouldForwardProp: (prop) => prop !== "background",
+})<BackgroundColor>`
   display: flex;
   align-items: center;
   justify-content: center;
