@@ -36,13 +36,17 @@ const coffeeSchemaValidation = zod.array(
 );
 
 const newCheckoutFormValidationSchema = zod.object({
-  cep: zod.string().min(1, "Informe o CEP"),
+  cep: zod.string().min(5, "Informe o CEP"),
   street: zod.string().min(1, "Informe a rua"),
-  number: zod.string().min(1, "Informe o número"),
+  number: zod
+    .number({ invalid_type_error: "Deve ser um número" })
+    .min(1, "Informe o número"),
   complement: zod.string(),
   district: zod.string().min(1, "Informe o bairro"),
   city: zod.string().min(1, "Informe a cidade"),
-  state: zod.string().min(1, "Informe o estado"),
+  state: zod
+    .string({ invalid_type_error: "Deve ser apenas letras" })
+    .min(1, "Informe o estado"),
   paymentMethod: zod.enum(["credit", "debit", "money"], {
     errorMap: () => {
       return { message: "Informe o método de pagamento" };
@@ -50,12 +54,11 @@ const newCheckoutFormValidationSchema = zod.object({
   }),
   coffees: coffeeSchemaValidation,
 });
-
 type NewCheckoutFormData = zod.infer<typeof newCheckoutFormValidationSchema>;
 
 export function Checkout() {
   const [isSelectedPaymentMethod, setIsSelectedPaymentMethod] = useState("");
-  const { coffees, createCheckout, orderId } = useCheckout();
+  const { coffees, createCheckout } = useCheckout();
   const navigate = useNavigate();
 
   const newCheckoutForm = useForm<NewCheckoutFormData>({
@@ -63,7 +66,7 @@ export function Checkout() {
     defaultValues: {
       cep: "",
       street: "",
-      number: "",
+      number: 0,
       complement: "",
       district: "",
       city: "",
@@ -82,10 +85,11 @@ export function Checkout() {
   } = newCheckoutForm;
 
   function handleCreateNewCheckoutForm(data: NewCheckoutFormData) {
+    const orderId = uuidV4();
     const newCheckout = {
       coffees: data.coffees,
       paymentMethod: data.paymentMethod,
-      orderId: uuidV4(),
+      orderId,
       address: {
         cep: data.cep,
         street: data.street,

@@ -21,9 +21,22 @@ export function Input({
 
   return (
     <InputWrapper>
-      <InputForm {...register(name)} placeholder={placeholder} size={size} />
+      <InputForm
+        {...register(name, { ...getValidationRules(name) })}
+        placeholder={placeholder}
+        size={size}
+      />
       {optional && <OptionalLabel>Opcional</OptionalLabel>}
       {errors[name] && <Error>{errors[name]?.message?.toString()}</Error>}
     </InputWrapper>
   );
+}
+
+function getValidationRules(field: string) {
+  switch (field) {
+    case "number":
+      return { valueAsNumber: true };
+    default:
+      return {};
+  }
 }

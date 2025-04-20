@@ -16,9 +16,15 @@ interface Coffee {
 
 interface CatalogCardProps {
   coffee: Coffee;
+  onDecrementeCoffee: (coffeeId: string) => void;
+  onIncrementCoffee: (coffeeId: string) => void;
 }
 
-export function CatalogCard({ coffee }: CatalogCardProps) {
+export function CatalogCard({
+  coffee,
+  onDecrementeCoffee,
+  onIncrementCoffee,
+}: CatalogCardProps) {
   const { addNewCoffeeToCart, decreaseCoffeeToCart, coffees } = useCheckout();
 
   function handleAddNewCoffeeToCart(data: Coffee) {
@@ -36,6 +42,14 @@ export function CatalogCard({ coffee }: CatalogCardProps) {
       handleAddNewCoffeeToCart(coffee);
     }
     return;
+  }
+
+  function decrementeCoffee() {
+    onDecrementeCoffee(coffee.id);
+  }
+
+  function incrementCoffee() {
+    onIncrementCoffee(coffee.id);
   }
 
   return (
@@ -57,11 +71,21 @@ export function CatalogCard({ coffee }: CatalogCardProps) {
         <strong> {coffee.price.toFixed(2)}</strong>
 
         <div>
-          <button onClick={() => handleDecreaseCoffeeToCart(coffee.id)}>
+          <button
+            onClick={() => {
+              handleDecreaseCoffeeToCart(coffee.id);
+              decrementeCoffee();
+            }}
+          >
             <Minus size={32} weight="bold" />
           </button>
           <p>{coffee.quantity}</p>
-          <button onClick={() => handleAddNewCoffeeToCart(coffee)}>
+          <button
+            onClick={() => {
+              handleAddNewCoffeeToCart(coffee);
+              incrementCoffee();
+            }}
+          >
             <Plus size={32} weight="bold" />
           </button>
         </div>

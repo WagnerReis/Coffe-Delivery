@@ -10,7 +10,7 @@ import { checkoutReducer } from "../reducers/checkout/reducers";
 export interface Address {
   cep: string;
   street: string;
-  number: string;
+  number: number;
   complement: string;
   district: string;
   city: string;
@@ -58,7 +58,7 @@ export function CheckoutContextProvider({
     address: {
       cep: "",
       street: "",
-      number: "",
+      number: 0,
       complement: "",
       district: "",
       city: "",

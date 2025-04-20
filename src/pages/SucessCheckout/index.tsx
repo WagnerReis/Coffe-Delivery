@@ -13,7 +13,7 @@ import { useCheckout } from "../../hooks/useCheckout";
 
 export function SucessCheckout() {
   const { address, paymentMethod } = useCheckout();
-  console.log("address: ", address);
+
   return (
     <SuccessContainer>
       <div>
