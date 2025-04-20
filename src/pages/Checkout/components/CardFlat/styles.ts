@@ -43,13 +43,15 @@ export const Actions = styled.div`
   align-items: center;
   gap: 1rem;
 
-  div {
+  button {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    border: none;
+
+    cursor: pointer;
 
     background: ${(props) => props.theme["base-button"]};
-    padding: 0.5rem;
+    padding: 0.5rem 0.25rem;
     border-radius: 6px;
 
     &:hover {
@@ -63,6 +65,14 @@ export const Actions = styled.div`
     svg {
       color: ${(props) => props.theme.purple};
     }
+
+    p {
+      padding: 0 0.25rem;
+      display: flex;
+      align-items: center;
+      color: ${(props) => props.theme["base-text"]};
+      ${mixins.fonts.buttonM}
+    }
   }
 
   div:last-child {
@@ -71,13 +81,13 @@ export const Actions = styled.div`
 `;
 
 export const Counter = styled.div`
-  /* display: flex;
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
 
   background: ${(props) => props.theme["base-button"]};
-  padding: 0.5rem;
-  border-radius: 6px; */
+  padding: 0.25rem;
+  border-radius: 6px;
 
   button {
     background: transparent;

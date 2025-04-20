@@ -173,6 +173,7 @@ export function Checkout() {
               <>
                 <CardFlat
                   key={coffee.id}
+                  id={coffee.id}
                   title={coffee.title}
                   price={coffee.price}
                   quantity={coffee.quantity}
