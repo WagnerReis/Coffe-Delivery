@@ -1,54 +1,84 @@
-# React + TypeScript + Vite
+# Coffee Delivery ☕
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React application for ordering and delivering coffee, built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Coffee Delivery is a web application that allows users to browse a catalog of coffee products, add items to their cart, and complete the checkout process with delivery information.
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 🛒 Shopping cart functionality
+- 📋 Product catalog with filtering options
+- 🚚 Delivery address form
+- 💳 Payment method selection
+- 🔄 State management with React Context API
+- 🎨 Styled with modern CSS-in-JS
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Tech Stack
+
+- **React** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool and development server
+- **React Router** - Navigation
+- **Styled Components** (or alternative styling solution)
+- **Context API** - State management
+- **React Hook Form** - Form handling
+- **Zod** - Form validation
+- **Phosphor Icons** - Modern icon library
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or later)
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/WagnerReis/Coffe-Delivery.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+# Navigate to project directory
+cd Coffe-Delivery
 ```
+
+```bash
+# Install dependencies
+npm install
+```
+
+```bash
+# Start development server
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`
+
+## Application Flow
+
+1. **Home Page**: Users can browse the coffee catalog, filter by type, and add items to cart
+2. **Cart**: Users can view their cart, adjust quantities, and remove items
+3. **Checkout**: Users provide delivery information and select payment method
+4. **Success**: Order confirmation with delivery details
+
+## State Management
+
+The application uses React Context API for state management:
+- **CartContext**: Manages the shopping cart state (items, quantities, total)
+
+
+## Styling
+
+The application uses a consistent design system with:
+- Typography scale
+- Color palette
+- Spacing system
+- Component variants
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
